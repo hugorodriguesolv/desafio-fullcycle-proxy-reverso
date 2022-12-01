@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  nodeserver:
+    container_name: nodeserver
+    restart: on-failure
+    build: 
+      context: ./nodejs
+    ports:
+      - "5000:5000"
+
+  nginx:
+    container_name: nginxfullcycle
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - nodeserver
