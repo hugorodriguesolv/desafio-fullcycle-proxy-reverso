@@ -2,11 +2,11 @@ FROM node:alpine
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY . .
 
 RUN npm install
-
-COPY . .
+RUN npm install ejs
+RUN npm install mysql
 
 EXPOSE 5000
 

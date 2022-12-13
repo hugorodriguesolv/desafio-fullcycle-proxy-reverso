@@ -1,12 +1,4 @@
-FROM mysql:latest
-
-ENV MYSQL_ROOT_PASSWORD=!SenhaDesafio123
-
-ENV MYSQL_DATABASE=DesafioFullCycle
-
-ENV MYSQL_USER=Hugo
-
-ENV MYSQL_PASSWORD=!Hugo123
+FROM mysql:5.7.9
 
 COPY CreateDataBase.sql /docker-entrypoint-initdb.d/
 

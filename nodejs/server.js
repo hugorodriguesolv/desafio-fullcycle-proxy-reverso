@@ -1,5 +1,4 @@
-'use strict';
-
+const { json } = require('express');
 const express = require('express');
 const mysql = require('mysql');
 
@@ -8,12 +7,12 @@ const PORT = 5000;
 const HOST = 'nodeserver';
 
 // App
-const connection = mysql.createPool({
+var connection = mysql.createConnection({
   connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  database: process.env.DB_DATABASE
 });
 
 const app = express();
@@ -23,18 +22,25 @@ app.set('views', './views');
 
 app.get('/', (req, res) => {
   
-  var nome = req.query.nome;
-  var query = "INSERT INTO People (Name) values ($1)";
 
-  dbClient.query(query, nome, function(err){
+  var query = "INSERT INTO People (Name) values ('Hugo Rodrigues')";
+  connection.query(query, (err) => {
     if(err)
       throw err;
     else {
-      console.log('Nome inserido com sucesso!')    ;
-      res.redirect('/');      
-      res.end();
+      console.log('Nome inserido com sucesso!');
     }               
-  }); 
+  });
+
+  var query = "SELECT * FROM People";
+  connection.query(query, (err, rows) => {
+    if(err)
+      throw err;
+    else {
+      var people = {people: rows};
+      res.render('people', people);
+    }               
+  });
 
 });
 

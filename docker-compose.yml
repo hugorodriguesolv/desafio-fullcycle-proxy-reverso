@@ -1,13 +1,20 @@
 version: "3.9"
 
 services:
-  nodeserver:
-    container_name: nodeserver
-    restart: on-failure
-    build: 
-      context: ./nodejs
+  mysqlserver:
+    container_name: mysqlserver
+    restart: always
+    environment:
+      - MYSQL_DATABASE=DesafioFullCycle
+      - MYSQL_ROOT_PASSWORD=desafioSql
+      - MYSQL_USER=hugo
+      - MYSQL_PASSWORD=userpass
+    build:
+      context: ./mysql
     ports:
-      - "5000:5000"
+      - "3306:3306"
+    networks:
+      - desafio-network
 
   nginx:
     container_name: nginxfullcycle
@@ -17,3 +24,26 @@ services:
       - "80:80"
     depends_on:
       - nodeserver
+    networks:
+      - desafio-network
+
+  nodeserver:
+    container_name: nodeserver
+    restart: on-failure
+    environment:
+      DB_DATABASE: DesafioFullCycle
+      DB_USER: hugo
+      DB_PASSWORD: userpass
+      DB_HOST: mysqlserver
+    build: 
+      context: ./nodejs
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysqlserver
+    networks:
+      - desafio-network
+
+networks:
+  desafio-network:
+    driver: bridge

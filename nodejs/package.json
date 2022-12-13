@@ -2,7 +2,7 @@
   "name": "desafio_proxy_reverso",
   "version": "1.0.0",
   "description": "Desafio Full Cycle Proxy Reverso",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "node server.js"
   },
