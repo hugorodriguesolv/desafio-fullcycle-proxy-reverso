@@ -29,6 +29,7 @@ services:
 
   nodeserver:
     container_name: nodeserver
+    entrypoint: dockerize -wait tcp://mysqlserver:3306 -timeout 20s node server.js
     restart: on-failure
     environment:
       DB_DATABASE: DesafioFullCycle
